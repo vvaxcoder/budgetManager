@@ -9,6 +9,13 @@ const mongoose = require('mongoose'),
 
 const api = {};
 
+/**
+ * Этот метод выполняет поиск объекта User, который соответствует 
+ * имени пользователя (username). Если имя пользователя распознать
+ * не удаётся, выдаём ошибку, в противном случае проверяем пароль
+ * и токен, привязанные к пользователю.
+ * @param {*} User 
+ */
 api.login = (User) => (req, resp) => {
     User.findOne({username: req.body.username}, (error, user) => {
         if (error) throw error;
@@ -30,3 +37,19 @@ api.login = (User) => (req, resp) => {
     }
     });
 };
+
+/**
+ * Этот метод проверяет заголовки и получает заголовок Authorization
+ */
+api.verify = headers => {
+    if (headers && headers.authorization) {
+        const split = headers.authorization.split(' ');
+        if (split.length === 2) return split[1];
+        else return null;
+    }
+    else {
+        return null;
+    }
+};
+
+module.exports = api;
