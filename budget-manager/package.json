@@ -9,6 +9,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "homepage": "https://github.com/voronkovvalerii/budgetManager/blob/master/README.md",
+  "_moduleAliases": {
+    "@root": ".",
+  "@budgetManager": "./services/budgetManagerAPI",
+  "@budgetManagerModels":"./services/budgetManagerAPI/app/models",
+  "@budgetManagerAPI":"./services/budgetManagerAPI/config/app.js",
+  "@config": "./services/budgetManagerAPI/config/index.js"
+},
   "devDependencies": {
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
