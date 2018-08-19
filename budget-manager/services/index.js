@@ -13,4 +13,4 @@ const http = require('http'),
     budgetManagerServer = http.Server(budgetManagerAPI),
     budgetManagerPort = process.env.PORT || 3001,
     LOCAL = '0.0.0.0';
-budgetManagerServer.listen(budgetManagerPort, LOCAL, () => console.log(`budgetManagerAPI running on ${budgetManagerPORT}`));
+budgetManagerServer.listen(budgetManagerPort, LOCAL, () => console.log(`budgetManagerAPI running on ${budgetManagerPort}`));

@@ -46,9 +46,9 @@ app.set('budgetsecret', config.secret);
  * и наконец — маршруты
  */
 consign({cwd: 'services'})
-.include(budgetManagerAPI/app/setup)
-.then(budgetManagerAPI/app/api)
-.then(budgetManagerAPI/app/route)
+.include('budgetManagerAPI/app/setup')
+.then('budgetManagerAPI/app/api')
+.then('budgetManagerAPI/app/routes')
 .into(app);
 
 module.exports = app;
