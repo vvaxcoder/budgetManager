@@ -1,7 +1,7 @@
 /**
  * Создадим модель User, которая будет использоваться для JWT-аутентификации.
  */
-const mongoose = require('mongoose'), bcrypt = require('bcrypt');
+const mongoose = require('mongoose'), bcryptjs = require('bcryptjs');
 
 const Schema = mongoose.Schema({
     username: {
@@ -19,9 +19,9 @@ const Schema = mongoose.Schema({
 Schema.pre('save', function(next) {
     const user = this;
     if(this.isModified('password') || this.isNew) {
-        bcryprt.genSalt(13, (error, salt) => {
+        bcryptjs.genSalt(13, (error, salt) => {
             if(error) return next(error);
-            bcrypr.hash(user.password, salt, (error, hash) => {
+            bcryptjs.hash(user.password, salt, (error, hash) => {
                 if(error) return next(error);
                 user.password = hash;
                 next();
@@ -34,7 +34,7 @@ Schema.pre('save', function(next) {
 });
 
 Schema.methods.comparePassword = function(password, callback) {
-    bcrypt.compare(password, this.password, (error, matches) => {
+    bcryptjs.compare(password, this.password, (error, matches) => {
         if(error) return callback(error);
         callback(null, matches);
     });

@@ -8,9 +8,9 @@
 module.exports = (mongoose, config) => {
     const database = mongoose.connection;
     mongoose.Promise = Promise;
-    mongoose.connet(config.database, {
-        useMongoClient: true,
-        promiseLabrary: global.Promise
+    mongoose.connect(config.database, {
+        useNewUrlParser: true,
+        promiseLibrary: global.Promise
     });
     database.on('error', error => console.log(`Connect to budgetManager database failed: ${error}`));
     database.on('connected', () => console.log(`Connected to budgetManager database`));

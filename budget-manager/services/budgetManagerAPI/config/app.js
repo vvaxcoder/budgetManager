@@ -38,3 +38,17 @@ app.use(cors());
  */
 app.use(passport.initialize());
 app.set('budgetsecret', config.secret);
+
+/**
+ * проверяем, прежде чем выполнять другие действия, загружено
+ * ли содержимое папки setup, благодаря чему в первую очередь
+ * будет создан экземпляр модели. Затем загружаем методы API,
+ * и наконец — маршруты
+ */
+consign({cwd: 'services'})
+.include('budgetManagerAPI/app/setup')
+.then('budgetManagerAPI/app/api')
+.then('budgetManagerAPI/app/routes')
+.into(app);
+
+module.exports = app;
