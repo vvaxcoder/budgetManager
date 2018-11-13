@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Authentication from '@/components/pages/Authantication.vue';
+import Authentication from '@/components/pages/Authentication/Authentication.vue';
 
 Vue.use(Router);
 
