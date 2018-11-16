@@ -1,14 +1,14 @@
-import Axios from 'axios';
-import router from '@/router';
+import Axios from "axios";
+import router from "@/router";
 const BudgetManagerAPI = `http://{window.location.hostname}:3001`;
 
 export default {
   user: { authtenticated: false },
 
-  authenticate (context, credentials, redirect) {
+  authenticate(context, credentials, redirect) {
     Axios.post(`${BudgetManagerAPI}/api/v1/auth`, credentials)
       .then(({ data: { token } }) => {
-        context.$cookie.set('token', token, '1D');
+        context.$cookie.set("token", token, "1D");
         context.validLogin = true;
         this.user.authtenticated = true;
 
@@ -23,10 +23,10 @@ export default {
       });
   },
 
-  signup (context, credential, redirect) {
-    Axios.post(`${BudgetManagerAPI}/api/v1/signup`, credentials)
+  signup(context, credential, redirect) {
+    Axios.post(`${BudgetManagerAPI}/api/v1/signup`, credential)
       .then(({ data: { token } }) => {
-        context.$cookie.set('token', token, '1D');
+        context.$cookie.set("token", token, "1D");
         context.validSignup = true;
 
         if (redirect) {
@@ -39,7 +39,7 @@ export default {
       });
   },
 
-  checkAuthentication () {
+  checkAuthentication() {
     const token = document.cookie;
 
     if (token) {
@@ -49,7 +49,7 @@ export default {
     }
   },
 
-  getAuthenticationHeader (context) {
-    return `Bearer ${context.$cookie.get('token')}`;
+  getAuthenticationHeader(context) {
+    return `Bearer ${context.$cookie.get("token")}`;
   }
 };

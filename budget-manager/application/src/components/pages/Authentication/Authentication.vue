@@ -1,85 +1,120 @@
 <template>
-    <div class="l-auth-container">
-        <div class="l-auth">
-            <v-form v-model="validLogin">
-                <v-text-field
-                label="Username"
-                v-model="credentials.username"
-                prepend-icon="account_box"
-                :rules="rules"
-                required
-                color="light-blue lighten-1"
-                ></v-text-field>
+  <div class="l-auth-container">
+    <div class="l-auth">
+      <v-form v-model="validLogin">
+        <v-text-field
+          label="Username"
+          v-model="credentials.username"
+          prepend-icon="account_box"
+          :rules="rules"
+          required
+          color="light-blue lighten-1"
+        >
+        </v-text-field>
+        <v-text-field
+          label="Password"
+          v-model="credentials.password"
+          prepend-icon="lock"
+          :rules="rules"
+          :append-icon="loginPasswordVisible ? 'visibility' : 'visibility_off'"
+          :append-icon-cd="() => loginPasswordVisible != loginPasswordVisible"
+          :type="loginPasswordVisible ? 'text' : 'password'"
+          required
+          color="light-blue lighten-1"
+        >
+        </v-text-field>
+        <v-btn
+          flat
+          color="light-blue lighten-1"
+          @click.native="signUpVisible = true;"
+        >
+          Create account
+        </v-btn>
+        <v-btn
+          color="light-blue lighten-1"
+          @click.native="submitAuthentication();"
+        >
+          Login
+        </v-btn>
+      </v-form>
+    </div>
 
-                <v-text-field
-                label="Password"
-                v-model="credentials.password"
-                prepend-icon="lock"
-                :rules="rules"
-                :append-icon="loginPasswordVisible ? 'visibility' : 'visibility_off'"
-                :append-icon-cd="() => (loginPasswordVisible != loginPasswordVisible)"
-                :type="loginPasswordVisible ? 'text' : 'password'"
-                required
-                color="light-blue lighten-1"
-                ></v-text-field>
+    <div class="l-signup" v-if="signUpVisible">
+      <v-form v-model="validLogin">
+        <v-text-field
+          label="Username"
+          v-model="newUser.username"
+          prepend-icon="account_box"
+          :rules="rules"
+          required
+          color="light-blue lighten-1"
+        >
+        </v-text-field>
+        <v-text-field
+          label="Password"
+          v-model="newUser.password"
+          prepend-icon="lock"
+          :rules="rules"
+          :append-icon="signUpPasswordVisible ? 'visibility' : 'visibility_off'"
+          :append-icon-cd="() => signUpPasswordVisible != signUpPasswordVisible"
+          :type="signUpPasswordVisible ? 'text' : 'password'"
+          required
+          color="light-blue lighten-1"
+        >
+        </v-text-field>
 
-                <v-btn
-                flat
-                color="light-blue lighten-1"
-                @click.native="signUpVisible = true"
-                >Create account</v-btn>
-
-                <v-btn
-                color="light-blue lighten-1"
-                @click.native="submitAuthentication()"
-                >Login</v-btn>
-            </v-form>
-        </div>
-
-        <div class="l-signup" v-if="signUpVisible">
-            <v-form v-model="validLogin">
-                <v-text-field
-                label="Username"
-                v-model="newUser.username"
-                prepend-icon="account_box"
-                :rules="rules"
-                required
-                color="light-blue lighten-1"
-                ></v-text-field>
-
-                <v-text-field
-                label="Password"
-                v-model="newUser.password"
-                prepend-icon="lock"
-                :rules="rules"
-                :append-icon="signUpPasswordVisible ? 'visibility' : 'visibility_off'"
-                :append-icon-cd="() => (signUpPasswordVisible != signUpPasswordVisible)"
-                :type="signUpPasswordVisible ? 'text' : 'password'"
-                required
-                color="light-blue lighten-1"
-                ></v-text-field>
-
-                <v-btn
-                block
-                color="light-blue lighten-1"
-                @click.native="submitSignUp()"
-                >Sign Up</v-btn>
-            </v-form>
-        </div>
-
-        <v-snackbar timeout="6000"
-                bottom="bottom"
-                color="red lighten-1"
-                v-model="snackbar">
+        <v-btn
+          block
+          color="light-blue lighten-1"
+          @click.native="submitSignUp();"
+        >
+          Sign Up
+        </v-btn>
+      </v-form>
+    </div>
+    <v-snackbar
+      timeout="6000"
+      bottom="bottom"
+      color="red lighten-1"
+      v-model="snackbar"
+    >
       {{ message }}
     </v-snackbar>
-    </div>
+  </div>
 </template>
 
 <script>
+import Authentication from "@/components/pages/Authentication";
 export default {
+  data() {
+    return {
+      credentials: {
+        username: "",
+        password: ""
+      },
+      loginPasswordVisible: false,
+      message: "",
+      newUser: {
+        username: "",
+        password: ""
+      },
+      rules: [value => !!value || "This field is required"],
+      snackbar: false,
+      signUpPasswordVisible: false,
+      validLogin: false,
+      validSignUp: false,
+      signUpVisible: false
+    };
+  },
+  methods: {
+    submitSignUp() {
+      Authentication.signup(this, this.newUser, "/");
+    },
+    submitAuthentication() {
+      Authentication.authenticate(this, this.credentials, "/");
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
