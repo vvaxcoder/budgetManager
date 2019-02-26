@@ -9,6 +9,7 @@ module.exports = (mongoose, config) => {
     const database = mongoose.connection;
     mongoose.Promise = Promise;
     mongoose.connect(config.database, {
+        useCreateIndex: true,
         useNewUrlParser: true,
         promiseLibrary: global.Promise
     });
